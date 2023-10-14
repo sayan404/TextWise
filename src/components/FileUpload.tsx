@@ -6,7 +6,9 @@ import { useDropzone } from "react-dropzone";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 const FileUpload = () => {
+  const router = useRouter();
   const [uploading, setUploading] = useState(false);
   const { mutate, isLoading } = useMutation({
     mutationFn: async ({
@@ -20,8 +22,6 @@ const FileUpload = () => {
         file_key,
         file_name,
       });
-      console.log(response);
-      
       return response.data;
     },
   });
@@ -29,8 +29,8 @@ const FileUpload = () => {
     accept: { "application/pdf": [".pdf"] },
     onDrop: async (acceptedFiles) => {
       const file = acceptedFiles[0];
-      if (file.size > 10 * 1024 * 1024) {
-        // bigger than 10mb!
+      if (file.size > 5 * 1024 * 1024) {
+        // bigger than 5mb!
         toast.error("File is too large");
         return;
       }
@@ -42,9 +42,9 @@ const FileUpload = () => {
           return;
         }
         mutate(data, {
-          onSuccess: (data) => {
-            console.log(data);
-            toast.success(data.message);
+          onSuccess: ({ chat_id }) => {
+            toast.success("Chat created successfully!");
+            router.push(`/chats/${chat_id}`);
           },
           onError: (err) => {
             console.log(err);
