@@ -13,13 +13,13 @@ export default async function Home() {
         {!isAuth ? (
           <div className="flex flex-col m-10 justify-center align-center text-center">
             <div>
-              <span className="text-4xl font-poppins ">Introducing &nbsp;</span>
+              <span className="text-4xl font-poppins">Introducing &nbsp; </span>
               <span className="text-6xl font-poppins text-blue-950 bg-white">
                 TextWise
               </span>
             </div>
-            <p className="w-3/4 p-5 text-3xl ml-auto mr-auto font-poppins ">
-              Your doc's answers at your fingertips. Upload, ask, and get
+            <p className="w-3/4 p-5 text-3xl ml-auto mr-auto font-poppins">
+            Answers of your doc at your fingertips. Upload, ask, and get
               instant answers. Simplify your document search now.
             </p>
             <Link href="/sign-in">
