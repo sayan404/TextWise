@@ -1,5 +1,6 @@
 import AWS from "aws-sdk";
 import fs from 'fs'
+import path from "path";
 export async function downloadFromS3(file_key: string) {
   try {
     AWS.config.update({
@@ -17,7 +18,13 @@ export async function downloadFromS3(file_key: string) {
         Key: file_key,
     }
     const obj = await s3.getObject(params).promise()
-    const file_name = `${Date.now()}.pdf`
+    const directoryPath = path.join(__dirname, "tmp"); // Create directory path
+      fs.mkdirSync(directoryPath, { recursive: true }); // Create the directory if it doesn't exist
+
+      const file_name = path.join(
+        directoryPath,
+        `user${Date.now().toString()}.pdf`,
+      );
     fs.writeFileSync(file_name , obj.Body as Buffer)
     return file_name
 } catch (error) {

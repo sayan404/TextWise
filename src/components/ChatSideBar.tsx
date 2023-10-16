@@ -1,24 +1,44 @@
 "use client";
-
 import { DrizzleChat } from "@/lib/db/schema";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { MessageSquare, PlusCircle, Menu , X } from "lucide-react";
+import { MessageSquare, PlusCircle, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import axios from 'axios'
+import SubscriptionButton from "./SubscriptionButton";
 type Props = {
   chats: DrizzleChat[];
   chatId: number;
-}; 
+  isPro : boolean
+};
 
-const ChatSideBar = ({ chats, chatId }: Props) => {
+const ChatSideBar = ({ chats, chatId, isPro }: Props) => {
   const [stateColapse, setStateColapse] = useState(true);
-
+  const [loading, setLoading] = useState(false);
+  const handleSubscription = async () => {
+    try {
+      setLoading(true)
+      const response = await axios.get('/api/stripe')
+      window.location.href =  response.data.url
+    } catch (error) {
+      
+    }finally{
+      setLoading(false)
+    }
+  }
   return (
     <>
       {stateColapse ? (
         <div className="w-full max-h-screen min-h-screen  overflow-y-scroll soff p-4 text-black bg-sky-300">
-          <Menu className="mb-4" onClick={() => stateColapse ? setStateColapse(false) : setStateColapse(true)} />
+          <X 
+            className="mb-4 cursor-pointer" 
+            onClick={() =>
+              stateColapse ? setStateColapse(false) : setStateColapse(true)
+            }
+          />   
+          <SubscriptionButton isPro={isPro} />
+              
           <Link href="/">
             <Button className="w-full">
               <PlusCircle className="mr-2 w-4 h-4" />
@@ -46,7 +66,12 @@ const ChatSideBar = ({ chats, chatId }: Props) => {
         </div>
       ) : (
         <>
-        <X className="m-3" onClick={() => stateColapse ? setStateColapse(false) : setStateColapse(true)} />
+          <Menu
+            className="m-3 cursor-pointer"
+            onClick={() =>
+              stateColapse ? setStateColapse(false) : setStateColapse(true)
+            }
+          />
         </>
       )}
     </>

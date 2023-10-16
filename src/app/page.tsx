@@ -1,12 +1,13 @@
 import FileUpload from "@/components/FileUpload";
 import { Button } from "@/components/ui/button";
+import { checkSubscription } from "@/lib/subscription";
 import { UserButton, auth } from "@clerk/nextjs";
 import Link from "next/dist/client/link";
 export default async function Home() {
   const { userId } = await auth();
   // console.log(userId)
   const isAuth = !!userId; // !userId this will check that the value is there or not and then !!then converts the value into boolean
-
+  const isPro = await checkSubscription() 
   return (
     <>
       <div className="w-screen min-h-screen flex flex-row bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400">
