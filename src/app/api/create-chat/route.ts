@@ -10,7 +10,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request, res: Response) {
   const { userId } = await auth();
   if (!userId) {
-    return NextResponse.json({ error: "unauthorized  user" }, { status: 401 });
+    return NextResponse .json({ error: "unauthorized  user" }, { status: 401 });
   }
   try {
     const body = await req.json();
@@ -28,6 +28,9 @@ export async function POST(req: Request, res: Response) {
       .returning({
         insertedId: chats.id,
       });
+      // console.log(chat_id);
+      // console.log(chat_id[0].insertedId);
+      
     return NextResponse.json(
       {
         chatId: chat_id[0].insertedId,

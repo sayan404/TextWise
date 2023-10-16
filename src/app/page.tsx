@@ -35,7 +35,7 @@ export default async function Home() {
               <FileUpload />
             </div>
             <div className="pb-10">
-              <Button>Go to Chat</Button>
+              <Link href='/chat/5'><Button>Go to Chat</Button></Link>
             </div>
           </div>
         )}
