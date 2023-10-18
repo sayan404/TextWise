@@ -15,18 +15,6 @@ type Props = {
 
 const ChatSideBar = ({ chats, chatId, isPro }: Props) => {
   const [stateColapse, setStateColapse] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const handleSubscription = async () => {
-    try {
-      setLoading(true)
-      const response = await axios.get('/api/stripe')
-      window.location.href =  response.data.url
-    } catch (error) {
-      
-    }finally{
-      setLoading(false)
-    }
-  }
   return (
     <>
       {stateColapse ? (
