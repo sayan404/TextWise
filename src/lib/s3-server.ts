@@ -19,20 +19,15 @@ export async function downloadFromS3(file_key: string) {
     }
     const obj = await s3.getObject(params).promise()
     const directoryPath = path.join(__dirname, "tmp"); // Create directory path
-    if (!fs.existsSync(directoryPath)) {
-      console.log("creating directry");
-      
-      fs.mkdirSync(directoryPath, { recursive: true });
-    }
+      fs.mkdirSync(directoryPath, { recursive: true }); // Create the directory if it doesn't exist
 
-      // fs.mkdirSync(directoryPath, { recursive: true }); // Create the directory if it doesn't exist
       const file_name = path.join(
         directoryPath,
         `user${Date.now().toString()}.pdf`,
       );
     fs.writeFileSync(file_name , obj.Body as Buffer)
     console.log("file created");
-    
+
     return file_name
 } catch (error) {
     console.log(error);
